@@ -81,21 +81,31 @@ abstract class Parser {
 			}
 
 			// replace anything not alpha numeric
-			$key = preg_replace('/[^a-z_\-0-9]/i', '', $key);
+			$key = preg_replace('/[^a-z_@\-0-9]/i', '', $key);
 
 			// if there is another array found recrusively call this function
 			if (is_array($value) or is_object($value)) {
-				$node = $structure->addChild($key);
-
-				// recursive call if value is not empty
-				if (!empty($value)) {
-					$this->xmlify($value, $node, $key);
+				
+				if($key == "@attributes"){
+					foreach($value as $k => $v)					
+						$structure->addAttribute(str_replace('@', '', $k ), $v);
 				}
+				// recursive call if value is not empty
+				else {
+						$node = $structure->addChild($key);
+					 	if (!empty($value)) {
+							$this->xmlify($value, $node, $key)	;
+					 	}
+				}
+
 			} else {
 				// add single node.
-				$value = htmlspecialchars(html_entity_decode($value, ENT_QUOTES, 'UTF-8'), ENT_QUOTES, "UTF-8");
-
-				$structure->addChild($key, $value);
+				$value = htmlspecialchars(html_entity_decode($value, ENT_QUOTES, 'UTF-8'), ENT_QUOTES, "UTF-8");	
+				if(substr($key, 0, 1) == "@"){
+					$structure->addAttribute(str_replace('@', '', $key ), $v);
+				} else {
+					$structure->addChild($key, $value);
+				}	
 			}
 		}
 
@@ -160,7 +170,7 @@ abstract class Parser {
 		foreach ($data as $row)
 		{
 			$output .= $enclosure.implode($enclosure.$delimiter.$enclosure, $escaper((array) $row)).$enclosure.$newline;
-		}
+			}
 
 		return rtrim($output, $newline);
 	}
