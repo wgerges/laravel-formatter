@@ -1,8 +1,8 @@
-<?php namespace SoapBox\Formatter\Parsers;
+<?php namespace wgerges\Formatter\Parsers;
 
 use Spyc;
 use Illuminate\Support\Str;
-use SoapBox\Formatter\ArrayHelpers;
+use wgerges\Formatter\ArrayHelpers;
 
 /**
  * Parser Interface
@@ -138,7 +138,7 @@ abstract class Parser {
 
 	/**
 	 * Ported from laravel-formatter
-	 * https://github.com/SoapBox/laravel-formatter
+	 * https://github.com/wgerges/laravel-formatter
 	 *
 	 * @author  Daniel Berry <daniel@danielberry.me>
 	 * @license MIT License (see LICENSE.readme included in the bundle)
