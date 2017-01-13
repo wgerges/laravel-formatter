@@ -5,7 +5,7 @@
 	"keywords": ["laravel", "formatter", "data", "convert", "csv", "xml", "yaml"],
     "homepage": "http://github.com/wgerges/laravel-formatter",
     "license": "MIT",
-	"version": "2.0",
+	"version": "master",
 	"authors": [
 		{
 			"name": "Graham McCarthy",
