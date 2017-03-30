@@ -20,6 +20,11 @@ class XmlParser extends Parser {
 		$result = [];
 
 		foreach ((array) $temp as $key => $value) {
+		    if($key === "@attributes")
+			$result['_'.key($value)] = $value[key($value)];				
+		    elseif(count($value) < 1)
+			$result[$key] = '';
+		    else
 			$result[$key] = (is_array($value) or is_object($value)) ? $this->objectify($value) : $value;
 		}
 
