@@ -57,7 +57,6 @@ abstract class Parser {
         if (ini_get('zend.ze1_compatibility_mode') == 1) {
             ini_set('zend.ze1_compatibility_mode', 0);
         }
-        $flag=false;
         if ($structure == null) {
             $structure = simplexml_load_string("<?xml version='1.0' encoding='utf-8'?><$basenode />");
         }
@@ -69,6 +68,8 @@ abstract class Parser {
 
         foreach ($data as $key => $value) {
             
+            $flag=false;
+
             // convert our booleans to 0/1 integer values so they are
             // not converted to blanks.
             if (is_bool($value)) {
@@ -94,10 +95,18 @@ abstract class Parser {
                 }
                 // recursive call if value is not empty
                 else {
-                    if(!$flag)
+                    if($flag)
+                    {
                         $node = $structure->addChild($key);
+                    }
                     else
-                        $node = $parent->addChild($key);
+                    {
+                        if ($parent !== null) {
+                            $node = $parent->addChild($key);
+                        } else {
+                            $node = $structure->addChild($key);
+                        }
+                    }
                     if (!empty($value)) {
                         $this->xmlify($value, $node, $key, $structure);                        
                     }                    
